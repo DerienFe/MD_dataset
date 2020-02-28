@@ -67,9 +67,21 @@ class Node(object):
     def get_all_neibors(self):
         return self._neighbors
 
+    
+"""
 class Mol(object):
     __slots__ = ['num_atoms', 'atom_list','activity']
     def __init__(self,num_atoms,atom_list,activity):
         self.num_atoms=num_atoms
         self.atom_list=atom_list
         self.activity=activity
+"""        
+
+
+#my data is different with abbi's. the label(activity/coupling/Hamiltonians) comes as a corresponding npy list. not seperately in each file.
+
+class Mol(object):
+    __slots__ = ['num_atoms', 'atom_list']
+    def __init__(self,num_atoms,atom_list):
+        self.num_atoms=num_atoms
+        self.atom_list=atom_list

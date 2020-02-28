@@ -11,6 +11,9 @@ dirlist = [item for item in dirlist if item[-5:] == '.mol2']
 file_dir = dir + dirlist[0]
 
 mol = load_atom(file_dir)  # a dictionary contains molecules information and all atom's information
+
+#activity=np.load('activity.npy')
+
 index_map = index_KdKi_map(dir)
 L = 3
 cat_dim =len(index_map)

@@ -26,7 +26,7 @@ def load_atom(db_dir):
         atoms.append(node1)
         if atom_type not in atom_list:
             atom_list.append(atom_type)
-    mol_info=Mol(idx,atom_list)
+    mol_info=Mol(idx,atom_list,[])
     mol={'mol_info':mol_info,'atoms':atoms}
     return mol
 
