@@ -39,7 +39,7 @@ def load_standardmol2(db_dir):    #db_dir is the file path.
     for line in atom_lines:
         atom_type = line[1][0]    #Atom type is clustered as C,H,N,O etc, no subtypes like CA, CB.
         x_y_z = np.asarray([line[2:5]], float)
-        num_atoms = line[0]    #Constantly update var num_atoms, the last value(index) is the total number of atoms.
+        num_atoms = int(line[0])    #Constantly update var num_atoms, the last value(index) is the total number of atoms.
         atoms.append(Node(atom_type, x_y_z, num_atoms))    #append this line as a atom object to the list "atoms"
         if atom_type not in atom_type_list:
             atom_type_list.append(atom_type)
@@ -73,10 +73,12 @@ def load_standardmol2_adj(db_dir,mol):
         for row in current:
             line = row.split()
             data_in_file.append(line)
-    bond_start = mol2_file.index(['@<TRIPOS>BOND']) + 1
-    bond_end = mol2_file.index(['@<TRIPOS>SUBSTRUCTURE'])
-    bond_info=mol2_file[bond_start:bond_end]
-    adjacent_matrix=np.zeros([mol['mol_info'].num_atoms,mol['mol_info'].num_atoms])
+    bond_start = data_in_file.index(['@<TRIPOS>BOND']) + 1
+    bond_end = data_in_file.index(['@<TRIPOS>SUBSTRUCTURE'])
+    bond_info= data_in_file[bond_start:bond_end]
+    #print(type(mol['mol_info'].num_atoms))
+    #print(mol['mol_info'].num_atoms)
+    adjacent_matrix=np.zeros([mol['mol_info'].num_atoms, mol['mol_info'].num_atoms])
     for line in bond_info:
         adjacent_matrix[int(line[1])-1, int(line[2])-1] = 1
         adjacent_matrix[int(line[2])-1, int(line[1])-1] = 1
@@ -86,7 +88,7 @@ def load_standardmol2_adj(db_dir,mol):
 # In[32]:
 
 
-def index_map(dir):
+def index_standardmol2_map(dir):
     """
 
     :param dir: the directory contains all mol2 files
