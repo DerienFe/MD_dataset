@@ -10,6 +10,8 @@ dirlist = os.listdir(dir)
 dirlist = [item for item in dirlist if item[-5:] == '.mol2']
 file_dir = dir + dirlist[0]
 
+
+
 mol = load_atom(file_dir)  # a dictionary contains molecules information and all atom's information
 
 #activity=np.load('activity.npy')

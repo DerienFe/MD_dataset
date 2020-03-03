@@ -2,6 +2,7 @@ import numpy as np
 import esig.tosig as ts
 import copy
 from load_mol2_data import *
+from load_standardmol2 import *
 from load_6angstroms_data import *
 def get_paths(node_index, adjacent_matrix, L):
     """
@@ -182,8 +183,8 @@ def mol_features(file_dir, index_map, L, cat_dim, deg_sig):
     :param deg_sig: degree of signatures
     :return:
     """
-    mol = load_atom(file_dir)
-    adjacent_matrix = load_adjacent_matrix(file_dir, mol)
+    mol = load_standardmol2(file_dir)
+    adjacent_matrix = load_standardmol2_adj(file_dir, mol)
     expected_cat_sig = []
     expected_cat_logsig = []
     expected_xyz_sig = []
