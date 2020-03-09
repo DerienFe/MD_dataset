@@ -6,6 +6,40 @@ from torch.nn.parameter import Parameter
 from torch.nn.modules.module import Module
 
 
+"""
+Define a flatten layer to convert input feature set from 3D to 2D (from [800,235,196] to [800,235*196])
+no need.
+"""
+
+class Flatten(Module):
+    def forward(self, input):
+        return input.view(input.size(0), -1)
+
+
+    
+"""
+Define a avg pooling layer to average the 
+"""
+class ave_pooling(Module):
+    """
+    Simple GCN layer, similar to https://arxiv.org/abs/1609.02907
+    """
+
+    def __init__(self):
+        super(ave_pooling, self).__init__()
+
+    
+    def forward(self,input):
+        output=torch.zeros([input.shape[0],input.shape[-1]], device = "cuda:0")
+        for i in range(input.shape[0]):
+            output[i]=input[i,::].mean(0)
+        
+        return output
+    
+    def __repr__(self):
+        return self.__class__.__name__    
+    
+
 class GraphConvolution(Module):
     """
     Simple GCN layer, similar to https://arxiv.org/abs/1609.02907
@@ -29,7 +63,7 @@ class GraphConvolution(Module):
             self.bias.data.uniform_(-stdv, stdv)
 
     def forward(self, input, adj):
-        output = torch.zeros(input.shape[0], input.shape[1], self.out_features, device = torch.device("cuda:0"))
+        output = torch.zeros(input.shape[0], input.shape[1], self.out_features, device = "cuda:0")
         for i in range(input.shape[0]):
             support = torch.mm(input[i].double(), self.weight.double())
             output[i] = torch.spmm(adj[i], support.double())
